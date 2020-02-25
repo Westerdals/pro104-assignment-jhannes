@@ -1,0 +1,14 @@
+label {
+    font-weight: bold;
+}
+
+body {
+    background-color: aliceblue;
+}
+
+#productList {
+    background-color: aqua;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: 0.5em;
+}
