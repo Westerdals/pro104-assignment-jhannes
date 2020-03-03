@@ -38,7 +38,8 @@ function renderProductList() {
         //}
 
         // Replace the contents of the productEl
-        productEl.innerHTML = `<h4>${product.name}</h4>
+        productEl.innerHTML = `<h4>${name}</h4>
+            <button>Add to cart</button>
             ${imageTag}
             <div>${description}</div>
             <div><small>Price: ${price}</small></div>`;

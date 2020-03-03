@@ -2,47 +2,25 @@
 <head>
     <title>This is our webshop</title>
     <link rel="stylesheet" type="text/css" href="style.css" />
+    <script src="webshop.js"></script>
 </head>
 <body>
-<script src="webshop.js"></script>
+    <header>
+        <h1>This is lecture 7</h1>
+    </header>
+    <main>
 
+        <h2>Our products</h2>
 
-<h1>This is lecture 7</h1>
+        <div id="productList"></div>
 
+    </main>
 
-<h2>Add new product</h2>
-
-<form onsubmit="createNewProduct(event)">
-    <div>
-        <label>Name:
-            <div><input name="name" placeholder="Product title to show in headlines" /></div>
-        </label>
-    </div>
-    <div>
-        <label>Price:
-            <div><input name="price" placeholder="10.99" /></div>
-        </label>
-    </div>
-    <div>
-        <label>Image:
-            <div><input name="image" type="file" onchange="handleFileSelect(event)" /></div>
-        </label>
-        <div id="imagePreview" />
-    </div>
-    <div>
-        <label>Description:
-            <div><textarea name="description" placeholder="A longer product description"></textarea></div>
-        </label>
-    </div>
-    <div>
-        <input type="submit" />
-    </div>
-</form>
-
-<h2>Our products</h2>
-
-<div id="productList"></div>
-
+    <footer>
+        <h3>Shopping cart</h3>
+        <div id="items"></div>
+    </footer>
+</body>
 <script>
 renderProductList();
 
@@ -52,5 +30,4 @@ window.addEventListener("storage", function(event) {
     }
 });
 </script>
-</body>
 </html>
