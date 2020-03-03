@@ -48,36 +48,68 @@ function renderProductList() {
     }   
 }
 
+// declares a function createNewProduct with an parameter event
+//  Event is a object with methods like
+//    preventDefault (don't actually submit the form)
+//  And properties like
+//    target - the <form> that was submitted
 function createNewProduct(event) {
+    // Prevents browser for submitting page
     event.preventDefault();
  
+    // Finds <input name='name'> [propertyName='propertyValue']
+    //   and gets the contents of the input field (value)
     const name = document.querySelector("[name='name']").value;
+    // Ditto for <input name='price' />
     const price = document.querySelector("[name='price']").value;
     const description = document.querySelector("[name='description']").value;
+    // Find the <input name='image' /> and get the data-image="..." attribute
+    //  This is the image as "base64 encoded data url"
     const image = document.querySelector("[name='image']").dataset.image;
 
+    // Creates a new object with properties taken from the variables with the same name
+    /*const product = {
+        name: name, price: price, description: description, image: image
+    }
+        // This is the same
+    const product = new Object();
+    product.name = name;
+    product.price = price;
+    */
     const product = {name, price, description, image};
 
+
     const productList = JSON.parse(window.localStorage.getItem("productList")) || [];
+    // Adds the new product to the end of the list
     productList.push(product);
     window.localStorage.setItem("productList", JSON.stringify(productList));
-    renderProductList();
 
+    // event.target refers to the <form>, <form>.reset clear alls values
     event.target.reset();
+    // Find the <div id="imagePreview"> and remove the contents
     const previewEl = document.getElementById("imagePreview");
     previewEl.innerHTML = "";
+    // Also reset <input name='image' data-image attribute
+    delete document.querySelector("[name='image']").dataset.image;
 }
 
 
-
+// Declared a function handleFileLoad with a parameter event
 function handleFileSelect(event) {
+    // Declares inner function handleFileLoad can only be executed from handleFileSelect
     function handleFileLoad(event) {
+        // We confusingly have two variables both named event
         const previewEl = document.getElementById("imagePreview");
+        // Set the contents of the <div id='imagePreview' /> to the image|
         previewEl.innerHTML = "<img src='" + event.target.result + "' height='150px' />";
+        // Sets the <input type='file' data-image attibute
         document.querySelector("[name='image']").dataset.image = event.target.result;
     }
 
+    // FileReader lets me look at the contents of a <input type='file' />
     const reader = new FileReader()
+    // When the reader is done with what I'm about to tell it, call the function handleFileLoad
     reader.onload = handleFileLoad;
+    // Reads the contents of the file as a data-url and calls handleFileLoad with event.target.result
     reader.readAsDataURL(event.target.files[0])
 }

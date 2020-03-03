@@ -7,15 +7,16 @@
 <script src="webshop.js"></script>
 
 
-<h1>This is lecture 7</h1>
+<h1>This is admin page</h1>
 
 
 <h2>Add new product</h2>
 
+<!-- when user presses submit (or enter in an input box), the function createNewProduct is called -->
 <form onsubmit="createNewProduct(event)">
     <div>
         <label>Name:
-            <div><input name="name" placeholder="Product title to show in headlines" /></div>
+            <div><input name="name" data-something="hello" data-id="1" placeholder="Product title to show in headlines" /></div>
         </label>
     </div>
     <div>
@@ -25,7 +26,14 @@
     </div>
     <div>
         <label>Image:
-            <div><input name="image" type="file" onchange="handleFileSelect(event)" /></div>
+            <div>
+                <!-- call the function handleFileSelect when image is changed -->
+                <input
+                    name="image"
+                    type="file"
+                    onchange="handleFileSelect(event)"
+                />
+            </div>
         </label>
         <div id="imagePreview" />
     </div>
@@ -39,18 +47,5 @@
     </div>
 </form>
 
-<h2>Our products</h2>
-
-<div id="productList"></div>
-
-<script>
-renderProductList();
-
-window.addEventListener("storage", function(event) {
-    if (event.key === "productList") {
-        renderProductList();
-    }
-});
-</script>
 </body>
 </html>
