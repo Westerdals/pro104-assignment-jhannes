@@ -39,7 +39,7 @@ function renderProductList() {
 
         // Replace the contents of the productEl
         productEl.innerHTML = `<h4>${name}</h4>
-            <button>Add to cart</button>
+            <button onclick='addItemToCart(event)'>Add to cart</button>
             ${imageTag}
             <div>${description}</div>
             <div><small>Price: ${price}</small></div>`;
@@ -48,6 +48,31 @@ function renderProductList() {
         productListEl.appendChild(productEl);
     }   
 }
+
+function addItemToCart(event) {
+    const productName = event.target.parentElement.querySelector("h4").innerText;
+    console.log(productName);
+
+    const shoppingCart = JSON.parse(window.localStorage.getItem("shoppingCart")) || [];
+    shoppingCart.push(productName);
+    window.localStorage.setItem("shoppingCart", JSON.stringify(shoppingCart));
+
+    renderShoppingList();
+}
+
+function renderShoppingList() {
+
+    const shoppingList = JSON.parse(window.localStorage.getItem("shoppingCart")) || [];
+    const shoppingListEl = document.getElementById("items");
+    shoppingListEl.innerHTML = "";
+    
+    for (const item of shoppingList) {
+        const itemEl = document.createElement("div");
+        itemEl.innerHTML = item;
+        shoppingListEl.appendChild(itemEl);
+    }
+}
+
 
 // declares a function createNewProduct with an parameter event
 //  Event is a object with methods like

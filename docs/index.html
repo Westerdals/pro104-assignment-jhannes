@@ -23,10 +23,14 @@
 </body>
 <script>
 renderProductList();
+renderShoppingList();
 
 window.addEventListener("storage", function(event) {
     if (event.key === "productList") {
         renderProductList();
+    }
+    if (event.key === "shoppingCart") {
+        renderShoppingList();
     }
 });
 </script>
