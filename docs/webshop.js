@@ -27,6 +27,10 @@ function renderProductList() {
         //const image = product.image;
         //const price = product.price;
 
+        function handleDragStart(event) {
+            event.dataTransfer.setData("text/plain", productId);
+        }
+
         // Ternary operator "? :" gives a conditional value
         const imageTag = (image ? `<div><img src='${image}' /></div>` : "");
         // It means the same as
@@ -38,7 +42,7 @@ function renderProductList() {
         //}
 
         productEl.draggable = true;
-        productEl.ondragstart = handleDragStartProduct;
+        productEl.ondragstart = handleDragStart;
 
         // Replace the contents of the productEl
         productEl.innerHTML = `<h4>${name}</h4>
@@ -52,19 +56,13 @@ function renderProductList() {
     }
 }
 
-function handleDragStartProduct(event) {
-    const productName = event.target.querySelector("h4").innerText;
-    event.dataTransfer.setData("text/plain", productName);
-}
-
 function handleDragOverShoppingCart(event) {
     event.preventDefault();
 }
 
 function handleDropOnShoppingCart(event) {
-    const productName = event.dataTransfer.getData("text/plain");
-    console.log("handleDropOnShoppingCart", event, productName);
-    addToCart(productName);
+    const productId = event.dataTransfer.getData("text/plain");
+    addToCart(productId);
 }
 
 // declares a function handleClickAddToCart which is a event handler on button-onClick
