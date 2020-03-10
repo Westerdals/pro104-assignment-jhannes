@@ -49,26 +49,41 @@ function renderProductList() {
     }   
 }
 
+// declares a function addItemToCart which is a event handler on button-onClick
 function addItemToCart(event) {
+    // Locates the h4 element of the product to find the productName (BLEH!)
     const productName = event.target.parentElement.querySelector("h4").innerText;
-    console.log(productName);
 
+    // Retrieve the existing shopping cart from local storage and parse it
     const shoppingCart = JSON.parse(window.localStorage.getItem("shoppingCart")) || [];
+    // Add the clicked product to shopping cart
     shoppingCart.push(productName);
+
+    // Save the shopping cart back to localStorage
+    
     window.localStorage.setItem("shoppingCart", JSON.stringify(shoppingCart));
 
+    // Display what's now the current shoppingCart from localStorage
     renderShoppingList();
 }
 
-function renderShoppingList() {
 
+// Declares a function renderShoppingList which renders the shopping cart from local storage
+function renderShoppingList() {
+    // Retrieve the existing shopping cart from local storage and parse it
     const shoppingList = JSON.parse(window.localStorage.getItem("shoppingCart")) || [];
+    // Find the location to write the shopping cart <div id='items' />
     const shoppingListEl = document.getElementById("items");
+    // Clears the current contents of the shopping cart <div>
     shoppingListEl.innerHTML = "";
     
+    // For each item in the shopping cart
     for (const item of shoppingList) {
+        // Create a new <div> element
         const itemEl = document.createElement("div");
+        // Sets the contents to the name of the product
         itemEl.innerHTML = item;
+        // Adds the <div> to the shopping cart <div id='items'>
         shoppingListEl.appendChild(itemEl);
     }
 }
