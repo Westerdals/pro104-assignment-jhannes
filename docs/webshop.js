@@ -14,14 +14,14 @@ function renderProductList() {
 
     // remove all the contents of the <div id='productList'></div
     productListEl.innerHTML = "";
-    
+
     // In turn assign each product in productList to "product"
     for (const product of productList) {
         // Creates a new <div> that can be placed in the document - currently it's living in the air
         const productEl = document.createElement("div");
 
         // Object destructoring - we're taking product apart
-        const { name, image, price, description } = product;
+        const {productId, name, image, price, description} = product;
         // This is the same as the following.
         //const name = product.name;
         //const image = product.image;
@@ -42,26 +42,24 @@ function renderProductList() {
 
         // Replace the contents of the productEl
         productEl.innerHTML = `<h4>${name}</h4>
-            <button onclick='handleClickAddToCart(event)'>Add to cart</button>
+            <button onclick='handleClickAddToCart(event, ${productId})'>Add to cart</button>
             ${imageTag}
             <div>${description}</div>
             <div><small>Price: ${price}</small></div>`;
 
         // Finally add the <div> to the <div id="productList">
         productListEl.appendChild(productEl);
-    }   
+    }
 }
 
 function handleDragStartProduct(event) {
     const productName = event.target.querySelector("h4").innerText;
-    event.dataTransfer.setData("text/plain", productName);    
+    event.dataTransfer.setData("text/plain", productName);
 }
-
 
 function handleDragOverShoppingCart(event) {
     event.preventDefault();
 }
-
 
 function handleDropOnShoppingCart(event) {
     const productName = event.dataTransfer.getData("text/plain");
@@ -70,47 +68,58 @@ function handleDropOnShoppingCart(event) {
 }
 
 // declares a function handleClickAddToCart which is a event handler on button-onClick
-function handleClickAddToCart(event) {
-    // Locates the h4 element of the product to find the productName (BLEH!)
-    const productName = event.target.parentElement.querySelector("h4").innerText;
-    addToCart(productName);
+function handleClickAddToCart(event, productId) {
+    addToCart(productId);
 }
 
-function addToCart(productName) {
+function addToCart(productId) {
     // Retrieve the existing shopping cart from local storage and parse it
-    const shoppingCart = JSON.parse(window.localStorage.getItem("shoppingCart")) || [];
+    const shoppingCart = JSON.parse(window.localStorage.getItem("shoppingCart")) || {};
     // Add the clicked product to shopping cart
-    shoppingCart.push(productName);
+    if (!shoppingCart[productId]) {
+        shoppingCart[productId] = 0;
+    }
+    shoppingCart[productId] = shoppingCart[productId] + 1;
 
     // Save the shopping cart back to localStorage
-    
+
     window.localStorage.setItem("shoppingCart", JSON.stringify(shoppingCart));
 
     // Display what's now the current shoppingCart from localStorage
     renderShoppingList();
 }
 
-
 // Declares a function renderShoppingList which renders the shopping cart from local storage
 function renderShoppingList() {
     // Retrieve the existing shopping cart from local storage and parse it
+    const productList = JSON.parse(window.localStorage.getItem("productList")) || [];
     const shoppingList = JSON.parse(window.localStorage.getItem("shoppingCart")) || [];
     // Find the location to write the shopping cart <div id='items' />
     const shoppingListEl = document.getElementById("items");
     // Clears the current contents of the shopping cart <div>
     shoppingListEl.innerHTML = "";
-    
+    let totalPrice = 0;
+
     // For each item in the shopping cart
-    for (const item of shoppingList) {
+    for (const productId in shoppingList) {
         // Create a new <div> element
         const itemEl = document.createElement("div");
+        const quantity = shoppingList[productId];
+        const product = productList.find(p=>p.productId == productId);
+        const {name, price} = product;
+        const orderLinePrice = quantity * price;
+        totalPrice += orderLinePrice;
+
         // Sets the contents to the name of the product
-        itemEl.innerHTML = item;
+        itemEl.innerHTML = `${quantity} x ${name} = ${orderLinePrice}`;
         // Adds the <div> to the shopping cart <div id='items'>
         shoppingListEl.appendChild(itemEl);
     }
-}
 
+    const totalEl = document.createElement("div");
+    totalEl.innerHTML = "Total price: " + totalPrice;
+    shoppingListEl.appendChild(totalEl);
+}
 
 // declares a function createNewProduct with an parameter event
 //  Event is a object with methods like
@@ -120,7 +129,10 @@ function renderShoppingList() {
 function createNewProduct(event) {
     // Prevents browser for submitting page
     event.preventDefault();
- 
+
+    const productList = JSON.parse(window.localStorage.getItem("productList")) || [];
+    const productId = productList.length;
+
     // Finds <input name='name'> [propertyName='propertyValue']
     //   and gets the contents of the input field (value)
     const name = document.querySelector("[name='name']").value;
@@ -140,10 +152,14 @@ function createNewProduct(event) {
     product.name = name;
     product.price = price;
     */
-    const product = {name, price, description, image};
+    const product = {
+        productId,
+        name,
+        price,
+        description,
+        image
+    };
 
-
-    const productList = JSON.parse(window.localStorage.getItem("productList")) || [];
     // Adds the new product to the end of the list
     productList.push(product);
     window.localStorage.setItem("productList", JSON.stringify(productList));
@@ -156,7 +172,6 @@ function createNewProduct(event) {
     // Also reset <input name='image' data-image attribute
     delete document.querySelector("[name='image']").dataset.image;
 }
-
 
 // Declared a function handleFileLoad with a parameter event
 function handleFileSelect(event) {
