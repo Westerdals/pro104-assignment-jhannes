@@ -37,9 +37,12 @@ function renderProductList() {
         //    imageTag = "";
         //}
 
+        productEl.draggable = true;
+        productEl.ondragstart = handleDragStartProduct;
+
         // Replace the contents of the productEl
         productEl.innerHTML = `<h4>${name}</h4>
-            <button onclick='addItemToCart(event)'>Add to cart</button>
+            <button onclick='handleClickAddToCart(event)'>Add to cart</button>
             ${imageTag}
             <div>${description}</div>
             <div><small>Price: ${price}</small></div>`;
@@ -49,11 +52,31 @@ function renderProductList() {
     }   
 }
 
-// declares a function addItemToCart which is a event handler on button-onClick
-function addItemToCart(event) {
+function handleDragStartProduct(event) {
+    const productName = event.target.querySelector("h4").innerText;
+    event.dataTransfer.setData("text/plain", productName);    
+}
+
+
+function handleDragOverShoppingCart(event) {
+    event.preventDefault();
+}
+
+
+function handleDropOnShoppingCart(event) {
+    const productName = event.dataTransfer.getData("text/plain");
+    console.log("handleDropOnShoppingCart", event, productName);
+    addToCart(productName);
+}
+
+// declares a function handleClickAddToCart which is a event handler on button-onClick
+function handleClickAddToCart(event) {
     // Locates the h4 element of the product to find the productName (BLEH!)
     const productName = event.target.parentElement.querySelector("h4").innerText;
+    addToCart(productName);
+}
 
+function addToCart(productName) {
     // Retrieve the existing shopping cart from local storage and parse it
     const shoppingCart = JSON.parse(window.localStorage.getItem("shoppingCart")) || [];
     // Add the clicked product to shopping cart

@@ -16,7 +16,10 @@
 
     </main>
 
-    <footer>
+    <footer
+            ondragover="handleDragOverShoppingCart(event)"
+            ondrop="handleDropOnShoppingCart(event)"
+    >
         <h3>Shopping cart</h3>
         <div id="items"></div>
     </footer>
