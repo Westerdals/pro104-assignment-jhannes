@@ -6,7 +6,7 @@
 </head>
 <body>
     <header>
-        <h1>This is lecture 7</h1>
+        <h1>Webshop</h1>
     </header>
     <main>
 
@@ -17,23 +17,23 @@
     </main>
 
     <footer
-            ondragover="handleDragOverShoppingCart(event)"
-            ondrop="handleDropOnShoppingCart(event)"
+        ondragover="handleDragOverShoppingCart(event)"
+        ondrop="handleDropOnShoppingCart(event)"
     >
         <h3>Shopping cart</h3>
-        <div id="items"></div>
+        <div id="shoppingCart"></div>
     </footer>
 </body>
 <script>
 renderProductList();
-renderShoppingList();
+renderShoppingCart();
 
 window.addEventListener("storage", function(event) {
     if (event.key === "productList") {
         renderProductList();
     }
     if (event.key === "shoppingCart") {
-        renderShoppingList();
+        renderShoppingCart();
     }
 });
 </script>

@@ -5,52 +5,51 @@
     <script src="webshop.js"></script>
 </head>
 <body>
+    <header>
+        <h1>This is admin page</h1>
+    </header>
 
-<header>
-   
-    <h1>This is admin page</h1>
-
-</header>
-<main>
-<h2>Add new product</h2>
-
-<!-- when user presses submit (or enter in an input box), the function createNewProduct is called -->
-<form onsubmit="createNewProduct(event)">
-    <div>
-        <label>Name:
-            <div><input name="name" data-something="hello" data-id="1" placeholder="Product title to show in headlines" /></div>
-        </label>
-    </div>
-    <div>
-        <label>Price:
-            <div><input name="price" placeholder="10.99" /></div>
-        </label>
-    </div>
-    <div>
-        <label>Image:
+    <main>
+        <h2>Add new product</h2>
+        <form onsubmit="handleSubmitProduct(event)">
             <div>
-                <!-- call the function handleFileSelect when image is changed -->
-                <input
-                    name="image"
-                    type="file"
-                    onchange="handleFileSelect(event)"
-                />
+                <label>Name:
+                    <div>
+                        <input name="name" placeholder="Product title to show in headlines" />
+                    </div>
+                </label>
             </div>
-        </label>
-        <div id="imagePreview" />
-    </div>
-    <div>
-        <label>Description:
-            <div><textarea name="description" placeholder="A longer product description"></textarea></div>
-        </label>
-    </div>
-    <div>
-        <input type="submit" />
-    </div>
-</form>
-</main>
-<footer>
-    <div>Have a nice day</div>
-</footer>
+            <div>
+                <label>Price:
+                    <div><input name="price" placeholder="10.99" /></div>
+                </label>
+            </div>
+            <div>
+                <label>Image:
+                    <div>
+                        <!-- call the function handleFileSelect when image is changed -->
+                        <input
+                            name="image"
+                            type="file"
+                            onchange="handleFileSelect(event)"
+                        />
+                    </div>
+                </label>
+                <div id="imagePreview" />
+            </div>
+            <div>
+                <label>Description:
+                    <div><textarea name="description" placeholder="A longer product description"></textarea></div>
+                </label>
+            </div>
+            <div>
+                <input type="submit" />
+            </div>
+        </form>
+    </main>
+
+    <footer>
+        <div>Copyright Johannes Brodwall, Kristiania, 2020</div>
+    </footer>
 </body>
 </html>

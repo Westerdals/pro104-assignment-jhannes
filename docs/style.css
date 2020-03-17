@@ -1,26 +1,8 @@
-label {
-    font-weight: bold;
-}
 
 body {
-    background-color: aliceblue;
     display: grid;
     grid-template-rows: auto 1fr auto;
     height: 100vh;
     margin: 0;
 }
 
-#productList {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    grid-gap: 0.5em;
-}
-
-main {
-    background-color: aqua;
-    overflow-y: auto;
-}
-
-#productList img {
-    height: 150px;
-}
